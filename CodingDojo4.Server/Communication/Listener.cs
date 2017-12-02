@@ -8,22 +8,23 @@ using System.Threading.Tasks;
 
 namespace CodingDojo4.Server.Communication
 {
-    class Server
+    public class Listener
     {
 
         private TcpListener _Listener { get; set; }
 
         private bool _stop = false;
 
-        public Server()
+        public Listener()
         {
-            this._Listener = new TcpListener(IPAddress.Any, 1010);
+            this._Listener = new TcpListener(IPAddress.Loopback, 10100);
 
         }
 
         public void Start()
         {
             this._Listener.Start();
+            Console.WriteLine("Start Listening...");
             while (!_stop)
             {
                 if (this._Listener.Pending())
@@ -38,6 +39,7 @@ namespace CodingDojo4.Server.Communication
         public void Stop()
         {
             this._stop = true;
+            Console.WriteLine("Server stopped listening.");
         }
 
     }

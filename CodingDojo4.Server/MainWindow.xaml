@@ -15,8 +15,8 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" HorizontalAlignment="Right" Orientation="Horizontal">
-            <Button Command="{Binding }" Grid.Row="0" Height="30" Width="80"  Margin="0,0,15,0" Content="Start"></Button>
-            <Button Grid.Row="0" Height="30" Width="80" Margin="0,0,15,0" Content="Stop"></Button>
+            <Button Command="{Binding StartBtnClick}" Grid.Row="0" Height="30" Width="80"  Margin="0,0,15,0" Content="Start"></Button>
+            <Button Command="{Binding StopBtnCLick}" Grid.Row="0" Height="30" Width="80" Margin="0,0,15,0" Content="Stop"></Button>
         </StackPanel>
 
         <TabControl Grid.Row="1" Margin="10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
