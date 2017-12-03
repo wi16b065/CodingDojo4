@@ -3,6 +3,10 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using CodingDojo4.Server.Communication;
 using System.Threading;
+using System.Collections.ObjectModel;
+using System.Net;
+using CodingDojo4.Server.Model;
+using CodingDojo4.Server.Utility;
 
 namespace CodingDojo4.Server.ViewModel
 {
@@ -24,11 +28,15 @@ namespace CodingDojo4.Server.ViewModel
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
         /// 
+
+        public Storage Storage { get; set; }
         public RelayCommand StartBtnClick { get; set; }
         public RelayCommand StopBtnCLick { get; set; }
         public RelayCommand DropBtnClick { get; set; }
 
         private bool IsStarted { get; set; } = false;
+
+
 
         //private bool _isStarted = false;
 
@@ -43,7 +51,19 @@ namespace CodingDojo4.Server.ViewModel
 
         public MainViewModel()
         {
+            this.Storage = Storage.Current;
             initCommands();
+            initDemoData();
+            foreach (var item in Storage.ConnectedUsers)
+            {
+                Console.WriteLine(item.Name);
+            }
+        }
+
+        private void initDemoData()
+        {
+            Storage.ConnectedUsers.Add(new User("Donald"));
+            Storage.ConnectedUsers.Add(new User("Frankenstein"));
         }
 
         public void initCommands()
@@ -54,7 +74,7 @@ namespace CodingDojo4.Server.ViewModel
             this.StopBtnCLick = new RelayCommand(this.StopServer,
                 () => this.IsStarted);
             //TODO
-            //this.DropBtnClick = new RelayCommand(this.DropClient);
+            this.DropBtnClick = new RelayCommand(this.DropClient);
 
         }
 
@@ -79,10 +99,10 @@ namespace CodingDojo4.Server.ViewModel
 
         private void DropClient()
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"Drop User:{Storage.UserToDrop.Name}");
+            Storage.UserToDrop.Client?.Close();
+            Storage.ConnectedUsers.Remove(Storage.UserToDrop);
         }
-
-
 
     }
 }

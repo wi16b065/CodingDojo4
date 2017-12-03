@@ -26,8 +26,8 @@ namespace CodingDojo4.Client
         {
             InitializeComponent();
 
-            TcpClient client = new TcpClient();
-            client.Connect(new IPEndPoint(IPAddress.Loopback, 10100));
+            //TcpClient client = new TcpClient();
+            //client.Connect(new IPEndPoint(IPAddress.Loopback, 10100));
         }
     }
 }

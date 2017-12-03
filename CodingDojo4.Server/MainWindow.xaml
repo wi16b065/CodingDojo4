@@ -36,8 +36,8 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <ListBox Grid.Row="1" Margin="10"/>
-                        <Button Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10"  Height="30" Width="80" Content="Drop"></Button>
+                        <ListBox ItemsSource="{Binding Storage.ConnectedUsers}" DisplayMemberPath="Name" SelectedItem="{Binding Storage.UserToDrop}" Grid.Row="1" Margin="10"/>
+                        <Button Command="{Binding DropBtnClick}" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10"  Height="30" Width="80" Content="Drop"></Button>
                     </Grid>
 
                     <StackPanel Orientation="Horizontal" Grid.Column="1">

@@ -1,9 +1,11 @@
-﻿using System;
+﻿using CodingDojo4.Server.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CodingDojo4.Server.Communication
@@ -11,29 +13,42 @@ namespace CodingDojo4.Server.Communication
     public class Listener
     {
 
-        private TcpListener _Listener { get; set; }
+        private TcpListener TcpListener { get; set; }
 
         private bool _stop = false;
 
+        List<ClientHandler> clients = new List<ClientHandler>();
+
+
         public Listener()
         {
-            this._Listener = new TcpListener(IPAddress.Loopback, 10100);
-
+            this.TcpListener = new TcpListener(IPAddress.Loopback, 10100);
         }
 
         public void Start()
         {
-            this._Listener.Start();
+            this.TcpListener.Start();
             Console.WriteLine("Start Listening...");
+
             while (!_stop)
             {
-                if (this._Listener.Pending())
+                if (this.TcpListener.Pending())
                 {
-                    var client = this._Listener.AcceptTcpClient();
+                    var client = this.TcpListener.AcceptTcpClient();
                     Console.WriteLine("New Client connected!");
+                    //new Thread for new client
+                    var clientThread = new Thread(() =>
+                    {
+                        //create new Clienthandler in new Thread to receive messages
+                        var clientHandler = new ClientHandler(this, client);
+                        //start receiving messages 
+                        clientHandler.StartReceiving();
+                    });
+
+                    clientThread.Start();
                 }
             }
-            this._Listener.Stop();
+            this.TcpListener.Stop();
         }
 
         public void Stop()

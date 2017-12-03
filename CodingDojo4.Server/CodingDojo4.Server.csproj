@@ -69,8 +69,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Communication\ClientHandler.cs" />
     <Compile Include="Communication\Listener.cs" />
+    <Compile Include="Models\Message.cs" />
+    <Compile Include="Utility\Storage.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
