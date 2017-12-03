@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CodingDojo4.Client.Utility;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -28,6 +29,9 @@ namespace CodingDojo4.Client
 
             //TcpClient client = new TcpClient();
             //client.Connect(new IPEndPoint(IPAddress.Loopback, 10100));
+
+         
         }
+
     }
 }

@@ -1,6 +1,8 @@
 ﻿using CodingDojo4.Server.Model;
+using CodingDojo4.Server.Utility;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -49,6 +51,32 @@ namespace CodingDojo4.Server.Communication
                 }
             }
             this.TcpListener.Stop();
+        }
+
+        public void Broadcast(User sender, string message)
+        {
+            try
+            {
+                foreach (var user in Storage.Current.Clients)
+                {
+                    var stream = user.Client.GetStream();
+                    var StreamWriter = new StreamWriter(stream);
+                    StreamWriter.WriteLine($"{sender.Name}:{message}");
+                    StreamWriter.Flush();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+        }
+
+        public void DropClient(User receiver)
+        {
+            var stream = receiver.Client.GetStream();
+            var StreamWriter = new StreamWriter(stream);
+            StreamWriter.WriteLine($"server:@quit");
+            StreamWriter.Flush();
         }
 
         public void Stop()

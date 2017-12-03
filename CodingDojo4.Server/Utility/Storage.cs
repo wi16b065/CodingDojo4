@@ -37,6 +37,7 @@ namespace CodingDojo4.Server.Utility
         {
             this.ConnectedUsers = new ObservableCollection<User>();
             this.Clients = new List<User>();
+            this.ReceivedMessages = new ObservableCollection<Message>();
         }
 
     }

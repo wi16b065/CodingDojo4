@@ -7,6 +7,9 @@ using System.Collections.ObjectModel;
 using System.Net;
 using CodingDojo4.Server.Model;
 using CodingDojo4.Server.Utility;
+using System.IO;
+
+//wi16b065 Chochole Robert
 
 namespace CodingDojo4.Server.ViewModel
 {
@@ -53,18 +56,17 @@ namespace CodingDojo4.Server.ViewModel
         {
             this.Storage = Storage.Current;
             initCommands();
-            initDemoData();
             foreach (var item in Storage.ConnectedUsers)
             {
                 Console.WriteLine(item.Name);
             }
         }
 
-        private void initDemoData()
-        {
-            Storage.ConnectedUsers.Add(new User("Donald"));
-            Storage.ConnectedUsers.Add(new User("Frankenstein"));
-        }
+        //private void initDemoData()
+        //{
+        //    Storage.ConnectedUsers.Add(new User("Donald"));
+        //    Storage.ConnectedUsers.Add(new User("Frankenstein"));
+        //}
 
         public void initCommands()
         {
@@ -74,7 +76,11 @@ namespace CodingDojo4.Server.ViewModel
             this.StopBtnCLick = new RelayCommand(this.StopServer,
                 () => this.IsStarted);
             //TODO
-            this.DropBtnClick = new RelayCommand(this.DropClient);
+            this.DropBtnClick = new RelayCommand(this.DropClient,
+                () => 
+            {
+                return (Storage.UserToDrop != null);
+            });
 
         }
 
@@ -100,6 +106,9 @@ namespace CodingDojo4.Server.ViewModel
         private void DropClient()
         {
             Console.WriteLine($"Drop User:{Storage.UserToDrop.Name}");
+            //inform User
+            _listener.DropClient(Storage.UserToDrop);
+            //dispose TcpClient instance + close Tcp Connection
             Storage.UserToDrop.Client?.Close();
             Storage.ConnectedUsers.Remove(Storage.UserToDrop);
         }

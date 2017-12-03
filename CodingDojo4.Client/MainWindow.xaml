@@ -5,8 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CodingDojo4.Client"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="ChatClient" Height="450" Width="525"
+        DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <Label Margin="10,0,0,0" Content="Chat Name: " FontWeight="Bold" ></Label>
+            <TextBox Text="{Binding Storage.Username}" Margin="10,0,0,0" Width="150"></TextBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
+            <Button Command="{Binding ConnectBtnClick}" Margin="0,0,10,0" Width="100" Content="Connect" Height="26" FontWeight="Bold" Foreground="White" Background="#FF2B59E2" BorderBrush="#FF2B59E2"></Button>
+        </StackPanel>
+        <Label Margin="10,0,0,0" Content="Messages" Grid.Row="1" VerticalAlignment="Center" FontWeight="Bold" ></Label>
+        <ListBox ItemsSource="{Binding Storage.Messages}" Grid.Row="2"  Margin="10"></ListBox>
+        <StackPanel Orientation="Horizontal" Grid.Row="3" VerticalAlignment="Center" >
+            <Label Margin="10,0,0,0" Content="Message: " FontWeight="Bold" />
+            <TextBox Text="{Binding Storage.Message, UpdateSourceTrigger=PropertyChanged}" Margin="10,0,0,0" MinWidth="300"/>
+            <Button Command="{Binding SendBtnClick, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Margin="10,0,10,0" Content="Send" Width="110" Foreground="White" Background="#FF2B59E2" BorderBrush="#FF2B59E2" FontWeight="Bold" />
+        </StackPanel>
         
     </Grid>
 </Window>

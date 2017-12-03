@@ -47,6 +47,10 @@ namespace CodingDojo4.Server.Communication
                 {
                     break; ;
                 }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
 
             }
         }
@@ -73,6 +77,8 @@ namespace CodingDojo4.Server.Communication
                 {
                     Storage.Current.ReceivedMessages.Add(new Message(this.User, textMessage));
                 });
+
+                this.Listener.Broadcast(this.User, textMessage);
             }
             else if (message == "@quit")
             {

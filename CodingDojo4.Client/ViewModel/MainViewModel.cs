@@ -1,4 +1,7 @@
+using System;
+using CodingDojo4.Client.Utility;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
 
 namespace CodingDojo4.Client.ViewModel
 {
@@ -19,16 +22,40 @@ namespace CodingDojo4.Client.ViewModel
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
+        /// 
+        public Storage Storage { get; set; }
+
+        public RelayCommand ConnectBtnClick { get; set; }
+        public RelayCommand SendBtnClick { get; set; }
+
+        private CodingDojo4.Client.Communication.Client Client { get; set; }
+
+        
+
         public MainViewModel()
         {
-            ////if (IsInDesignMode)
-            ////{
-            ////    // Code runs in Blend --> create design time data.
-            ////}
-            ////else
-            ////{
-            ////    // Code runs "for real"
-            ////}
+            this.Storage = Storage.Current;
+            InitCommands();
         }
+
+        private void InitCommands()
+        {
+            this.ConnectBtnClick = new RelayCommand(this.ConnectToServer, () => !Storage.isConnected);
+            this.SendBtnClick = new RelayCommand(this.SendMessage, () => Storage.Message?.Length > 0 && Storage.isConnected);
+        }
+
+        private void ConnectToServer()
+        {
+            this.Client = new Communication.Client();
+            this.Client.Start();
+            Storage.isConnected= true;
+        }
+
+        private void SendMessage()
+        {
+            this.Client.SendMessage(Storage.Message);
+            this.Storage.Message = "";
+        }
+
     }
 }
